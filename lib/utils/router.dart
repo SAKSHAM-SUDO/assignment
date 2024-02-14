@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRouter {
   Route<dynamic> generateRoute(RouteSettings settings) {
+    final args = settings.arguments;
     switch (settings.name) {
       case '/':
 
@@ -30,9 +31,11 @@ class AppRouter {
         });
 
       case Screens.filter:
-        List<AgeGroup> data = settings.arguments as List<AgeGroup>;
+        Map<String, dynamic> data = args as Map<String, dynamic>;
+        List<AgeGroup> ageGroup = data["ageGroup"];
+        AgeGroup? selectedAgeGroup = data["selectedAgeGroup"];
         return MaterialPageRoute(builder: (_) {
-          return FilterScreen(data);
+          return FilterScreen(selectedAgeGroup: selectedAgeGroup, ageGroups: ageGroup,);
         });
 
       default:

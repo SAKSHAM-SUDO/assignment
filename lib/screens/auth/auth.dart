@@ -54,7 +54,11 @@ class _AuthScreenState extends State<AuthScreen> {
             );
           }
           if (state is LoginSuccessState) {
-            Navigator.pushNamed(context, Screens.home);
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              Screens.home,
+              (route) => false,
+            );
           }
         },
         builder: (context, state) {

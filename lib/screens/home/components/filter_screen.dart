@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class FilterScreen extends StatelessWidget {
   final List<AgeGroup> ageGroups;
+  final AgeGroup? selectedAgeGroup;
 
-  const FilterScreen(this.ageGroups, {super.key});
+  const FilterScreen({super.key, required this.selectedAgeGroup, required this.ageGroups});
 
   @override
   Widget build(BuildContext context) {
@@ -13,22 +14,35 @@ class FilterScreen extends StatelessWidget {
         title: const Text('Filter'),
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(
+          TextButton(
             onPressed: () {
               Navigator.pop(context, null);
             },
-            icon: const Icon(Icons.highlight_remove_rounded),
-          )
+            child: const Text(
+              'Clear Filters',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
         ],
       ),
       body: ListView.builder(
         itemCount: ageGroups.length,
         itemBuilder: (context, index) {
           final AgeGroup ageGroup = ageGroups[index];
+          final isSelected = selectedAgeGroup != null &&
+              ageGroup.lowerBound == selectedAgeGroup!.lowerBound &&
+              ageGroup.upperBound == selectedAgeGroup!.upperBound;
+
           return ListTile(
-            title: Text(
-              'Age Group: ${ageGroup.lowerBound} - ${ageGroup.upperBound}',
+
+            title: Row(
+              children: [
+                Text(
+                  'Age Group: ${ageGroup.lowerBound} - ${ageGroup.upperBound}',
+                ),
+              ],
             ),
+            trailing: isSelected ? const Icon(Icons.check) : null,
             onTap: () {
               Navigator.pop(context, ageGroup);
             },

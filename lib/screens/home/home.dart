@@ -59,15 +59,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _openFilterScreen(List<AgeGroup> ageGroups) async {
-  final selectedAgeGroup = await Navigator.pushNamed(
-    context,
-    Screens.filter,
-    arguments: ageGroups,
-  );
+    final selectedAgeGroup = await Navigator.pushNamed(
+      context,
+      Screens.filter,
+      arguments: {
+        "ageGroup": ageGroups,
+        "selectedAgeGroup": this.selectedAgeGroup
+      },
+    );
     if (selectedAgeGroup != null) {
+      this.selectedAgeGroup = selectedAgeGroup as AgeGroup;
       BlocProvider.of<HomeBloc>(context)
-          .add(FilterEmployeesByAge(selectedAgeGroup as AgeGroup?));
+          .add(FilterEmployeesByAge(selectedAgeGroup));
     } else {
+      this.selectedAgeGroup = null;
       context.read<HomeBloc>().add(LoadEmployeesData());
     }
   }
@@ -76,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('HomeScreen'),
       ),
       body: Padding(
