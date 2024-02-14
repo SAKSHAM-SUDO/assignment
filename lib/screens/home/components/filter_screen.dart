@@ -5,7 +5,8 @@ class FilterScreen extends StatelessWidget {
   final List<AgeGroup> ageGroups;
   final AgeGroup? selectedAgeGroup;
 
-  const FilterScreen({super.key, required this.selectedAgeGroup, required this.ageGroups});
+  const FilterScreen(
+      {super.key, required this.selectedAgeGroup, required this.ageGroups});
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +35,23 @@ class FilterScreen extends StatelessWidget {
               ageGroup.upperBound == selectedAgeGroup!.upperBound;
 
           return ListTile(
-
             title: Row(
               children: [
                 Text(
                   'Age Group: ${ageGroup.lowerBound} - ${ageGroup.upperBound}',
+                  style: TextStyle(
+                    fontWeight:
+                        isSelected ? FontWeight.bold : FontWeight.normal,
+                  ),
                 ),
               ],
             ),
-            trailing: isSelected ? const Icon(Icons.check) : null,
+            trailing: isSelected
+                ? const Icon(
+                    Icons.check,
+                    color: Colors.green,
+                  )
+                : null,
             onTap: () {
               Navigator.pop(context, ageGroup);
             },
